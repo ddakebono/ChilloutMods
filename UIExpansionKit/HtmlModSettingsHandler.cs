@@ -20,10 +20,18 @@ public class HtmlModSettingsHandler
     internal void PerformInjection(CohtmlControlledView mainMenuView)
     {
         FruityLogger.Msg($"Preparing to inject menu into {mainMenuView.gameObject.name}");
+
+        // Add listener to further menu loads
         mainMenuView.Listener.FinishLoad += _ => { DoBinds(mainMenuView); };
+
+        // If the menu view already finished loading, manually trigger the bindings and injection
         var internalView = mainMenuView.View.GetInternalView();
-        if (internalView != null && internalView.IsReadyForBindings())
+        if (mainMenuView.FinishedLoading && internalView != null && internalView.IsReadyForBindings())
+        {
+            FruityLogger.Msg($"Skipping manually setting binds and injecting JS for {mainMenuView.gameObject.name}. " +
+                             $"It shall be loaded when the menu finishes loading.");
             DoBinds(mainMenuView);
+        }
 
         ExpansionKitApi.SettingsVisibilityUpdated += (category, entry, visibility) =>
         {
