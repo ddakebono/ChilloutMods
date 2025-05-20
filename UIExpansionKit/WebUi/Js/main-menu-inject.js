@@ -225,11 +225,10 @@ function switchUixCat(_id, _e) {
 
 UIX_updateCategoriesBodies()
 
-let settingsButton = document.getElementsByClassName("tab_btn_settings")[0]
-settingsButton.insertAdjacentHTML('afterend', `<div class="toolbar-btn tab_btn_settings button" onclick="changeTab(\'uix-settings\', this);"><img src="uix-resource:twemoji-melon.svg"/>Mòwóds</div>`)
-
-let searchButton = document.getElementById("search-btn")
-searchButton.style.width = "95%"
-searchButton.style.paddingLeft = "8px"
-searchButton.style.paddingTop = "5px"
-
+let hiddenButton = document.querySelector("#empty-home-button-block .action-btn");
+hiddenButton.style.visibility = '';
+hiddenButton.innerHTML = "<img src=\"uix-resource:twemoji-melon.svg\"/>Mòwóds";
+hiddenButton.addEventListener("click", function(e) {
+    changeTab('uix-settings', this);
+    hiddenButton.classList.remove("active");
+})

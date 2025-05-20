@@ -11,7 +11,7 @@ using UIExpansionKit;
 using UIExpansionKit.API;
 using UIExpansionKit.WebUi.Events;
 
-[assembly:MelonInfo(typeof(UiExpansionKitMod), "UI Expansion Kit", "1.1.5", "knah & DDAkebono")]
+[assembly:MelonInfo(typeof(UiExpansionKitMod), "UI Expansion Kit", "1.1.6", "knah & DDAkebono")]
 [assembly:MelonGame("Alpha Blend Interactive", "ChilloutVR")]
 
 namespace UIExpansionKit
@@ -24,8 +24,6 @@ namespace UIExpansionKit
         
         public override void OnInitializeMelon()
         {
-            ExpansionKitSettings.RegisterSettings();
-
             ourInstance = this;
 
             HarmonyInstance.Patch(
@@ -39,14 +37,6 @@ namespace UIExpansionKit
         {
             if (__0)
                 ourInstance?.CheckMenu();
-
-            if (ExpansionKitSettings.MainMenuInstant.Value)
-            {
-                var animator = __instance.uiMenuAnimator;
-                // it needs two updates for some odd reason
-                animator.Update(10f);
-                animator.Update(10f);
-            }
         }
 
         private void CheckMenu()
