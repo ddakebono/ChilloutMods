@@ -11,8 +11,8 @@ using UIExpansionKit;
 using UIExpansionKit.API;
 using UIExpansionKit.WebUi.Events;
 
-[assembly:MelonInfo(typeof(UiExpansionKitMod), "UI Expansion Kit", "1.1.6", "knah & DDAkebono")]
-[assembly:MelonGame("Alpha Blend Interactive", "ChilloutVR")]
+[assembly:MelonInfo(typeof(UiExpansionKitMod), "UI Expansion Kit", "1.1.7", "knah & DDAkebono")]
+[assembly:MelonGame("ChilloutVR", "ChilloutVR")]
 
 namespace UIExpansionKit
 {
@@ -20,7 +20,7 @@ namespace UIExpansionKit
     {
         private static UiExpansionKitMod? ourInstance;
         private HtmlModSettingsHandler? myModSettingsHandler;
-        private ViewEventSinkImpl? myMainMenuEventSink;
+        internal static ViewEventSinkImpl? MyMainMenuEventSink;
         
         public override void OnInitializeMelon()
         {
@@ -29,8 +29,6 @@ namespace UIExpansionKit
             HarmonyInstance.Patch(
                 AccessTools.Method(typeof(ViewManager), nameof(ViewManager.UiStateToggle), new[] { typeof(bool) }),
                 postfix: new HarmonyMethod(AccessTools.Method(typeof(UiExpansionKitMod), nameof(UiStateToggleSuffix))));
-            
-            MelonCoroutines.Start(InitThings());
         }
 
         public static void UiStateToggleSuffix(ViewManager __instance, bool __0)
@@ -44,17 +42,20 @@ namespace UIExpansionKit
             if (myModSettingsHandler != null) return;
             
             myModSettingsHandler = new HtmlModSettingsHandler();
-            myModSettingsHandler.PerformInjection(ViewManager.Instance.gameMenuView);
+            myModSettingsHandler.PerformInjection(ViewManager.Instance.cohtmlView);
         }
+    }
 
-        private IEnumerator InitThings()
+    [HarmonyPatch(typeof(ViewManager))]
+    class ViewManagerPatch
+    {
+        [HarmonyPatch(nameof(ViewManager.Start))]
+        [HarmonyPostfix]
+        static void OnViewManagerStart()
         {
-            while (ViewManager.Instance == null || ViewManager.Instance.gameMenuView == null)
-                yield return null;
-
-            myMainMenuEventSink = new ViewEventSinkImpl(ViewManager.Instance.gameMenuView);
-            foreach (var page in ExpansionKitApi.SettingPageExtensions.Values) 
-                page.Sink = myMainMenuEventSink;
+            UiExpansionKitMod.MyMainMenuEventSink = new ViewEventSinkImpl(ViewManager.Instance.cohtmlView);
+            foreach (var page in ExpansionKitApi.SettingPageExtensions.Values)
+                page.Sink = UiExpansionKitMod.MyMainMenuEventSink;
 
             FruityLogger.Msg("Init done!");
         }

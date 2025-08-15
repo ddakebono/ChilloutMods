@@ -65,7 +65,7 @@ public class HtmlModSettingsHandler
     private void ResubmitSettingVisibilities()
     {
         foreach (var kvp in ExpansionKitApi.SettingsVisibilities)
-            SendVisibility(ViewManager.Instance.gameMenuView, kvp.Key.Category, kvp.Key.Entry, kvp.Value);
+            SendVisibility(ViewManager.Instance.cohtmlView, kvp.Key.Category, kvp.Key.Entry, kvp.Value);
 
         foreach (var category in MelonPreferences.Categories)
         {
@@ -73,7 +73,7 @@ public class HtmlModSettingsHandler
             {
                 if (entry.IsHidden || entry is not MelonPreferences_Entry<string> stringEntry) continue;
 
-                ViewManager.Instance.gameMenuView.View.GetInternalView()?.TriggerEvent("UixSettingValueUpdated", category.Identifier,
+                ViewManager.Instance.cohtmlView.View.GetInternalView()?.TriggerEvent("UixSettingValueUpdated", category.Identifier,
                     entry.Identifier, stringEntry.Value);
             }
         }
@@ -109,7 +109,7 @@ public class HtmlModSettingsHandler
 
         yield return "<div class=\"list-filter\">";
         yield return "<h1>Mod Settings</h1>";
-        yield return "<div class=\"scroll-content\" style=\"top: 4em; bottom: 3em;\">";
+        yield return "<div class=\"scroll-content\">";
         yield return "<div class=\"filter-content\">";
 
         var categories = GetViableCategories().ToList();

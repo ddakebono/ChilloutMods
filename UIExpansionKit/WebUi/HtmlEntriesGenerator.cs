@@ -48,7 +48,7 @@ public class HtmlEntriesGenerator
 
         DoSubToEntryChange(entry, (_, newValue) =>
         {
-            ViewManager.Instance.gameMenuView.View.GetInternalView()?.TriggerEvent("UixSettingValueUpdated", category.Identifier,
+            ViewManager.Instance.cohtmlView.View.GetInternalView()?.TriggerEvent("UixSettingValueUpdated", category.Identifier,
                 entry.Identifier, options.FindIndex(it => Equals(it.SettingsValue, newValue)));
         });
 
@@ -62,7 +62,7 @@ public class HtmlEntriesGenerator
     {
         DoSubToEntryChange(entry, (_, newValue) =>
         {
-            ViewManager.Instance.gameMenuView.View.GetInternalView()?.TriggerEvent("UixSettingValueUpdated", entry.Category.Identifier,
+            ViewManager.Instance.cohtmlView.View.GetInternalView()?.TriggerEvent("UixSettingValueUpdated", entry.Category.Identifier,
                 entry.Identifier, newValue ? "True" : "False");
         });
 
