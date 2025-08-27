@@ -6,7 +6,6 @@ using ABI_RC.Core.InteractionSystem;
 using cohtml;
 using HarmonyLib;
 using MelonLoader;
-using MelonLoader.ICSharpCode.SharpZipLib.Core;
 using UIExpansionKit;
 using UIExpansionKit.API;
 using UIExpansionKit.WebUi.Events;
@@ -107,4 +106,13 @@ namespace UIExpansionKit
             return memStream.ToArray();
         }
     }
+
+	internal static class Empty
+	{
+		internal static class EmptyArray<T>
+		{
+			public static readonly T[] Value = new T[0];
+		}
+		public static T[] Array<T>() => EmptyArray<T>.Value;
+	}
 }
