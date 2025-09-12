@@ -196,7 +196,19 @@ function UIX_StringOpenKeyboard(element) {
     lastStringCategory = element.getAttribute('data-uix-cat')
     lastStringEntry = element.getAttribute('data-uix-entry')
     lastStringElement = element;
+
+    if(!element.id){
+        element.id = "_" + guidGenerator();
+    }
+
     displayKeyboard(element);
+}
+
+function guidGenerator() {
+    var S4 = function() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
 function UIX_StringSettingUpdated() {

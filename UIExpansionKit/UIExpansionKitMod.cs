@@ -10,7 +10,7 @@ using UIExpansionKit;
 using UIExpansionKit.API;
 using UIExpansionKit.WebUi.Events;
 
-[assembly:MelonInfo(typeof(UiExpansionKitMod), "UI Expansion Kit", "1.1.7", "knah & DDAkebono")]
+[assembly:MelonInfo(typeof(UiExpansionKitMod), "UI Expansion Kit", "1.1.8", "knah & DDAkebono")]
 [assembly:MelonGame("ChilloutVR", "ChilloutVR")]
 
 namespace UIExpansionKit
@@ -48,7 +48,7 @@ namespace UIExpansionKit
     [HarmonyPatch(typeof(ViewManager))]
     class ViewManagerPatch
     {
-        [HarmonyPatch(nameof(ViewManager.Start))]
+        [HarmonyPatch(nameof(ViewManager.OnFinishedLoad))]
         [HarmonyPostfix]
         static void OnViewManagerStart()
         {
